@@ -56,9 +56,10 @@ if [[ $RESULT =~ ^.*\/([0-9a-zA-Z\.\-]+)\.zip$ ]] && [[ -f "${BASH_REMATCH[0]}" 
   cleanup
 fi
 
-if [[ -f "$SIA_DIR/siac"]] && [[ -f "$SIA_DIR/siad" ]]; then
+if [[ -f "$SIA_DIR/siac" ]] && [[ -f "$SIA_DIR/siad" ]]; then
   echo "Update completed successfully."
   cleanup
   exit 0
 else
   update_failed
+fi
