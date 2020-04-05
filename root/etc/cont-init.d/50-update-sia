@@ -48,7 +48,7 @@ download
 [[ $RESULT =~ ^.*-(v[0-9]+\.[0-9]+\.[0-9]+)-.*$ ]] && DOWNLOAD_VERSION="${BASH_REMATCH[1]}"
 echo "Downloaded version $DOWNLOAD_VERSION."
 
-if [[ $RESULT =~ ^\/([0-9a-zA-Z\.\-]+)\.zip$ ]] && [[ -f "${BASH_REMATCH[0]}" ]]; then
+if [[ $RESULT =~ ^.*\/([0-9a-zA-Z\.\-]+)\.zip$ ]] && [[ -f "${BASH_REMATCH[0]}" ]]; then
   unzip -j "${BASH_REMATCH[0]}" "${BASH_REMATCH[1]}/siac" -d "${SIA_DIR}"
   [[ $? -ne 0 ]] && update_failed
   unzip -j "${BASH_REMATCH[0]}" "${BASH_REMATCH[1]}/siad" -d "${SIA_DIR}"
