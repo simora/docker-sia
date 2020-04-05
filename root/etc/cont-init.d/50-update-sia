@@ -34,17 +34,14 @@ update_failed() {
   exit 1
 }
 
-CUR_VERSION="None"
-
 if [[ -f "${SIA_DIR}/siad" ]]; then
   RESULT="$(${SIA_DIR}/siad version)"
   [[ "$RESULT" =~ ^.*(v[0-9]+\.[0-9]+\.[0-9]+)$ ]] && CUR_VERSION="${BASH_REMATCH[1]}"
-fi
-
-if [[ "${SIA_VERSION,,}" = "latest" ]] || [[ -z $SIA_VERSION ]]; then
-  [[ "$RESULT" = "$CUR_VERSION" ]] && update_not_required
-else
-  [[ "$SIA_VERSION" = "$CUR_VERSION" ]] && update_not_required
+  if [[ "${SIA_VERSION,,}" = "latest" ]] || [[ -z $SIA_VERSION ]]; then
+    [[ check_latest = "$CUR_VERSION" ]] && update_not_required
+  else
+    [[ "$SIA_VERSION" = "$CUR_VERSION" ]] && update_not_required
+  fi
 fi
 
 download_dry_run
