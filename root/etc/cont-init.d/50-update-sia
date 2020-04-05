@@ -38,21 +38,21 @@ CUR_VERSION = "None"
 
 if [[ -f "${SIA_DIR}/siad" ]]; then
   RESULT="$(${SIA_DIR}/siad version)"
-  [[ "$RESULT" =~ ^.*(v[0-9]+\.[0-9]+\.[0-9]+)$ ]] && CUR_VERSION=${BASH_REMATCH[1]}
+  [[ "$RESULT" =~ ^.*(v[0-9]+\.[0-9]+\.[0-9]+)$ ]] && CUR_VERSION="${BASH_REMATCH[1]}"
 fi
 
-if [[ ${SIA_VERSION,,} = "latest" ]] || [[ -z $SIA_VERSION ]]; then
-  [[ $RESULT -eq $CUR_VERSION ]] && update_not_required
+if [[ "${SIA_VERSION,,}" = "latest" ]] || [[ -z $SIA_VERSION ]]; then
+  [[ "$RESULT" = "$CUR_VERSION" ]] && update_not_required
 else
-  [[ $SIA_VERSION -eq $CUR_VERSION ]] && update_not_required
+  [[ "$SIA_VERSION" = "$CUR_VERSION" ]] && update_not_required
 fi
 
 download_dry_run
-FILENAME=$RESULT
+FILENAME="$RESULT"
 [[ $FILENAME =~ ^.*-(v[0-9]+\.[0-9]+\.[0-9]+)-.*$ ]]
-DOWNLOAD_VERSION=${BASH_REMATCH[1]}
+DOWNLOAD_VERSION="${BASH_REMATCH[1]}"
 
-[[ "$DOWNLOAD_VERSION" -eq "$CUR_VERSION" ]] && update_not_required
+[[ "$DOWNLOAD_VERSION" = "$CUR_VERSION" ]] && update_not_required
 
 download
 
