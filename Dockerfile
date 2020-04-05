@@ -16,6 +16,7 @@ RUN apt-get install -y \
 # Sia data directory as /mnt/sia. Creates a symbolic link so that any previous
 # path references stored in the Sia host config still work.
 RUN ln --symbolic "$SIA_DATA_DIR" /mnt/sia
+RUN mkdir ${SIA_DIR}
 
 EXPOSE 9980 9981 9982
 
