@@ -41,7 +41,7 @@ fi
 
 if [[ ${SIA_VERSION,,} = "latest" ]] || [[ -z $SIA_VERSION ]]; then
   [[ $RESULT -eq $CUR_VERSION ]] && update_not_required
-elif
+else
   [[ $SIA_VERSION -eq $CUR_VERSION ]] && update_not_required
 fi
 
