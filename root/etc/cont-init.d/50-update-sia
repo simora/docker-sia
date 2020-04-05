@@ -1,0 +1,69 @@
+#!/usr/bin/with-contenv bash
+
+cleanup() {
+  rm -rf /tmp/Sia*
+}
+
+check_latest() {
+  RESULT="$(python3 /app/update.py --check)"
+  [[ $? -ne 0 ]] && download_failed
+}
+
+download_dry_run() {
+  RESULT="$(python3 /app/update.py --dry-run $SIA_VERSION)"
+  [[ $? -ne 0 ]] && download_failed
+}
+
+download() {
+  RESULT="$(python3 /app/update.py $SIA_VERSION)"
+  [[ $? -ne 0 ]] && download_failed
+}
+
+update_not_required() {
+  echo "Update not required. Current version and desired version match."
+  exit 0
+}
+
+download_failed() {
+  echo "Download failed. Terminating update script."
+  exit 1
+}
+
+update_failed() {
+  echo "Update failed. Terminating update script."
+  exit 1
+}
+
+if [[ -f "${SIA_DIR}/siad" ]]; then
+  RESULT="$(${SIA_DIR}/siad version)"
+  [[ "$RESULT" =~ ^.*(v[0-9]+\.[0-9]+\.[0-9]+)$ ]] && CUR_VERSION=${BASH_REMATCH[1]}
+fi
+
+if [[ ${SIA_VERSION,,} = "latest" ]] || [[ -z $SIA_VERSION ]]; then
+  [[ $RESULT -eq $CUR_VERSION ]] && update_not_required
+elif
+  [[ $SIA_VERSION -eq $CUR_VERSION ]] && update_not_required
+fi
+
+download_dry_run
+FILENAME=$RESULT
+[[ $FILENAME =~ ^.*-(v[0-9]+\.[0-9]+\.[0-9]+)-.*$ ]]
+DOWNLOAD_VERSION=${BASH_REMATCH[1]}
+
+[[ "$DOWNLOAD_VERSION" -eq "$CUR_VERSION" ]] && update_not_required
+
+download
+
+echo "Downloaded version $DOWNLOAD_VERSION."
+
+if [[ $FILENAME =~ ^\/([0-9a-zA-Z\-]+)\.zip$ ]] && [[ -f "${BASH_REMATCH[0]}" ]]; then
+  unzip -j "${BASH_REMATCH[0]}" "${BASH_REMATCH[1]}/siac" -d "${SIA_DIR}"
+  [[ $? -ne 0 ]] && update_failed
+  unzip -j "${BASH_REMATCH[0]}" "${BASH_REMATCH[1]}/siad" -d "${SIA_DIR}"
+  [[ $? -ne 0 ]] && update_failed
+  cleanup
+fi
+
+echo "Update completed successfully."
+cleanup
+exit 0
