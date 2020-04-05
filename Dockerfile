@@ -5,7 +5,7 @@ RUN apt-get update
 RUN apt-get install -y \
       python3 \
       python3-requests \
-      python3-bs4
+      python3-bs4 \
       unzip \
       socat
 
