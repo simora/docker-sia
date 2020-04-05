@@ -34,7 +34,7 @@ update_failed() {
   exit 1
 }
 
-CUR_VERSION = "None"
+CUR_VERSION="None"
 
 if [[ -f "${SIA_DIR}/siad" ]]; then
   RESULT="$(${SIA_DIR}/siad version)"
