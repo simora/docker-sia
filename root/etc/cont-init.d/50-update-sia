@@ -39,8 +39,9 @@ if [[ -f "${SIA_DIR}/siad" ]]; then
   RESULT="$(${SIA_DIR}/siad version)"
   [[ "$RESULT" =~ ^.*(v[0-9]+\.[0-9]+\.[0-9]+).*$ ]] && CUR_VERSION="${BASH_REMATCH[1]}"
   if [[ "${SIA_VERSION,,}" = "latest" ]] || [[ ! -n $SIA_VERSION ]]; then
+    check_latest
     LATEST="$RESULT"
-    echo "Current version is $CUR_VERSION. Latest version is $RESULT."
+    echo "Current version is $CUR_VERSION. Latest version is $LATEST."
     [[ "$LATEST" = "$CUR_VERSION" ]] && update_not_required
   else
     echo "Current version is $CUR_VERSION. Desired version is $SIA_VERSION."
