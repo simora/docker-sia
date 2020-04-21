@@ -2,9 +2,16 @@
 
 echo "Starting Sia Server."
 
+if [[ ! -z "$SIA_RPC_PORT" ]]; then
+  SIA_RPC_PORT="9891"
+if [[ ! -z "$SIA_HOST_PORT" ]]; then
+  SIA_HOST_PORT="9892"
+
 exec \
   socat tcp-listen:9980,reuseaddr,fork tcp:localhost:8000 & \
     $SIA_DIR/siad \
       --modules "$SIA_MODULES" \
       --sia-directory "$SIA_DATA_DIR" \
-      --api-addr "localhost:8000"
+      --api-addr "localhost:8000" \
+      --rpc-addr ":$SIA_RPC_PORT" \
+      --host-addr ":$SIA_HOST_PORT"
