@@ -4,8 +4,10 @@ echo "Starting Sia Server."
 
 if [[ ! -z "$SIA_RPC_PORT" ]]; then
   SIA_RPC_PORT="9891"
+fi
 if [[ ! -z "$SIA_HOST_PORT" ]]; then
   SIA_HOST_PORT="9892"
+fi
 
 exec \
   socat tcp-listen:9980,reuseaddr,fork tcp:localhost:8000 & \
