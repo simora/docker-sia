@@ -2,7 +2,8 @@ FROM lsiobase/ubuntu:bionic
 
 ENV DEBIAN_FRONTEND="noninteractive" \
 SIA_DIR="/sia" \
-SIA_DATA_DIR="/sia-data"
+SIA_DATA_DIR="/sia-data" \
+SIAD_DATA_DIR="/sia-data"
 
 RUN apt-get update
 RUN apt-get install -y \
