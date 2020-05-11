@@ -4,6 +4,7 @@ echo "Starting Sia Server."
 
 [ -z "$SIA_RPC_PORT" ] && SIA_RPC_PORT="9981"
 [ -z "$SIA_HOST_PORT" ] && SIA_HOST_PORT="9982"
+[ -z "$SIA_MUX_PORT" ] && SIA_HOST_PORT="9983"
 
 exec \
   socat tcp-listen:9980,reuseaddr,fork tcp:localhost:8000 & \
@@ -12,4 +13,5 @@ exec \
       --sia-directory "$SIA_DATA_DIR" \
       --api-addr "localhost:8000" \
       --rpc-addr ":$SIA_RPC_PORT" \
-      --host-addr ":$SIA_HOST_PORT"
+      --host-addr ":$SIA_HOST_PORT" \
+      --siamux-addr ":$SIA_MUX_PORT"
