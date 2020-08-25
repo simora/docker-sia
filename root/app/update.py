@@ -66,6 +66,7 @@ release = get_release(args.version)
 download_url = get_download_url(release)
 try:
     r = requests.get(download_url, allow_redirects=True)
+    filename = f"Sia-{version}-linux-amd64.zip"
     open(os.path.join(args.output, filename), 'wb').write(r.content)
     print(os.path.join(args.output, filename))
     sys.exit(0)
