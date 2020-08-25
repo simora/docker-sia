@@ -45,7 +45,7 @@ def get_download_url(version):
     for link in soup.find_all('a'):
         if 'linux-amd64' in link.get('href'):
             return link.get('href')
-    return f"https://sia.tech/releases/Sia-v{version}-linux-amd64.zip"
+    return f"https://sia.tech/releases/Sia-{version}-linux-amd64.zip"
 
 
 if args.check:
