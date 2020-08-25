@@ -26,7 +26,7 @@ def get_release(version = None):
         print("Failed to properly retrieve releases")
         sys.exit(1)
     try:
-        return json.loads(response.text)['name']
+        return json.loads(response.text)[0]['name']
     except Exception as e:
         print(f"Error: {str(e)}")
         sys.exit(1)
